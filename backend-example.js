@@ -1,5 +1,5 @@
-// Example Backend Integration for PayPal Orders
-// This is a Node.js/Express example for handling PayPal orders
+// Example Backend Integration for Paystack Transactions
+// This is a Node.js/Express example for verifying and handling Paystack payments
 
 // Install required packages:
 // npm install express axios dotenv cors
@@ -13,93 +13,101 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// PayPal Configuration
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
-const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
-const PAYPAL_API_BASE = process.env.NODE_ENV === 'production' 
-  ? 'https://api.paypal.com' 
-  : 'https://api.sandbox.paypal.com';
+// Paystack Secret Key configuration
+// Ensure PAYSTACK_SECRET_KEY is defined in your .env file
+const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
 
-// Get PayPal Access Token
-async function getPayPalAccessToken() {
-  try {
-    const response = await axios.post(
-      `${PAYPAL_API_BASE}/v1/oauth2/token`,
-      'grant_type=client_credentials',
-      {
-        auth: {
-          username: PAYPAL_CLIENT_ID,
-          password: PAYPAL_CLIENT_SECRET
-        },
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }
-    );
-    return response.data.access_token;
-  } catch (error) {
-    console.error('Error getting PayPal access token:', error.response?.data || error.message);
-    throw error;
+/**
+ * Verify Transaction with Paystack API
+ * Send a GET request to Paystack's transaction verification endpoint
+ * @param {string} reference - The unique transaction reference returned by the frontend popup
+ */
+async function verifyPaystackTransaction(reference) {
+  if (!PAYSTACK_SECRET_KEY) {
+    throw new Error('PAYSTACK_SECRET_KEY is not defined in environment variables.');
   }
-}
 
-// Verify PayPal Order
-async function verifyPayPalOrder(orderId) {
   try {
-    const accessToken = await getPayPalAccessToken();
     const response = await axios.get(
-      `${PAYPAL_API_BASE}/v2/checkout/orders/${orderId}`,
+      `https://api.paystack.co/transaction/verify/${encodeURIComponent(reference)}`,
       {
         headers: {
-          'Authorization': `Bearer ${accessToken}`
+          'Authorization': `Bearer ${PAYSTACK_SECRET_KEY}`,
+          'Content-Type': 'application/json'
         }
       }
     );
     return response.data;
   } catch (error) {
-    console.error('Error verifying PayPal order:', error.response?.data || error.message);
+    console.error('Error verifying Paystack transaction:', error.response?.data || error.message);
     throw error;
   }
 }
 
-// Endpoint to handle order confirmation
+/**
+ * Endpoint to handle order confirmation after checkout
+ */
 app.post('/api/orders', async (req, res) => {
   try {
     const {
-      paypalOrderId,
+      reference,
       firstName,
       lastName,
       email,
       phone,
       address,
       items,
-      total,
-      paymentStatus
+      total // Expected total in GHS (e.g. 890.00)
     } = req.body;
 
-    // Verify the order with PayPal
-    const paypalOrder = await verifyPayPalOrder(paypalOrderId);
-
-    // Check if payment status is COMPLETED
-    if (paypalOrder.status !== 'COMPLETED') {
+    if (!reference) {
       return res.status(400).json({
         success: false,
-        message: 'Payment not completed'
+        message: 'Transaction reference is required'
       });
     }
 
-    // Verify the amount matches
-    const paypalAmount = parseFloat(paypalOrder.purchase_units[0].amount.value);
-    if (Math.abs(paypalAmount - total) > 0.01) {
+    // 1. Verify transaction with Paystack API
+    const paystackResult = await verifyPaystackTransaction(reference);
+
+    // 2. Check if Paystack request succeeded
+    if (!paystackResult.status || !paystackResult.data) {
       return res.status(400).json({
         success: false,
-        message: 'Amount mismatch'
+        message: 'Paystack verification failed'
       });
     }
 
-    // Store order in database
+    const txData = paystackResult.data;
+
+    // 3. Verify transaction status is 'success'
+    if (txData.status !== 'success') {
+      return res.status(400).json({
+        success: false,
+        message: `Payment not completed. Status: ${txData.status}`
+      });
+    }
+
+    // 4. Verify transaction currency is GHS
+    if (txData.currency !== 'GHS') {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid transaction currency: ${txData.currency}. Expected GHS.`
+      });
+    }
+
+    // 5. Verify the amount matches (Paystack reports amount in smallest unit, i.e., pesewas for GHS)
+    const paidAmountGHS = txData.amount / 100;
+    if (Math.abs(paidAmountGHS - total) > 0.01) {
+      return res.status(400).json({
+        success: false,
+        message: `Amount mismatch. Expected GH₵ ${total}, but paid GH₵ ${paidAmountGHS}`
+      });
+    }
+
+    // 6. Build the completed order record
     const order = {
-      orderId: paypalOrderId,
+      orderId: reference,
       customer: {
         firstName,
         lastName,
@@ -110,25 +118,30 @@ app.post('/api/orders', async (req, res) => {
         address
       },
       items,
-      total,
-      paymentStatus: 'COMPLETED',
+      total: paidAmountGHS,
+      paymentStatus: 'SUCCESS',
+      paystackGatewayMetadata: {
+        channel: txData.channel,
+        ipAddress: txData.ip_address,
+        cardDetails: txData.authorization || {}
+      },
       createdAt: new Date(),
       status: 'pending_fulfillment'
     };
 
-    // TODO: Save to your database
+    // TODO: Save to your actual database (MongoDB, MySQL, PostgreSQL, etc.)
     // await db.orders.insert(order);
 
-    console.log('Order created:', order);
+    console.log('Order verified and stored successfully:', order);
 
-    // Send confirmation email (example)
-    // await sendConfirmationEmail(email, order);
+    // TODO: Send confirmation emails or SMS alerts to customer and administrator
+    // await sendOrderNotification(email, order);
 
     // Return success response
     res.json({
       success: true,
-      orderId: paypalOrderId,
-      message: 'Order confirmed successfully',
+      orderId: reference,
+      message: 'Payment verified and order confirmed successfully',
       orderDetails: order
     });
 
@@ -142,41 +155,47 @@ app.post('/api/orders', async (req, res) => {
   }
 });
 
-// Endpoint to get order details
-app.get('/api/orders/:orderId', async (req, res) => {
+/**
+ * Endpoint to retrieve order details directly via Paystack reference
+ */
+app.get('/api/orders/:reference', async (req, res) => {
   try {
-    const { orderId } = req.params;
+    const { reference } = req.params;
     
-    // Verify with PayPal
-    const paypalOrder = await verifyPayPalOrder(orderId);
+    // Query directly from Paystack API
+    const paystackResult = await verifyPaystackTransaction(reference);
     
-    // TODO: Get from your database
-    // const order = await db.orders.findOne({ orderId });
+    // TODO: Query from your database to match this record
+    // const dbOrder = await db.orders.findOne({ orderId: reference });
 
     res.json({
       success: true,
-      order: paypalOrder
+      paystackTransactionDetails: paystackResult.data
     });
 
   } catch (error) {
-    console.error('Error fetching order:', error.message);
+    console.error('Error fetching transaction:', error.message);
     res.status(500).json({
       success: false,
-      message: 'Error fetching order',
+      message: 'Error fetching transaction details',
       error: error.message
     });
   }
 });
 
-// Health check
+// Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({ status: 'OK', service: 'FitZone PayPal Integration' });
+  res.json({ 
+    status: 'OK', 
+    service: 'FitZone Paystack Integration Server',
+    environment: process.env.NODE_ENV || 'development' 
+  });
 });
 
-// Start server
+// Start express server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`FitZone Paystack Server running on port ${PORT}`);
 });
 
 module.exports = app;

@@ -159,34 +159,50 @@
               </div>
 
               <h3 style="font-family:var(--font-cond);font-size:1.1rem;text-transform:uppercase;letter-spacing:1px;color:var(--primary);margin:1.5rem 0 1rem;">Payment Method</h3>
-              <div style="display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1.5rem;" role="radiogroup" aria-label="Select payment method">
-                <label style="display:flex;align-items:center;gap:0.8rem;background:var(--mid);padding:1rem;border-radius:var(--radius);cursor:pointer;border:1px solid rgba(255,255,255,0.07);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(232,255,0,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
-                  <input type="radio" name="payment" value="paypal" checked style="accent-color:var(--primary);" aria-label="PayPal payment">
-                  <span>🅿️ PayPal (Recommended)</span>
-                </label>
-                <label style="display:flex;align-items:center;gap:0.8rem;background:var(--mid);padding:1rem;border-radius:var(--radius);cursor:pointer;border:1px solid rgba(255,255,255,0.07);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(232,255,0,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
-                  <input type="radio" name="payment" value="momo" style="accent-color:var(--primary);" aria-label="Mobile Money payment">
-                  <span>📱 Mobile Money (MTN / Vodafone / AirtelTigo)</span>
-                </label>
-                <label style="display:flex;align-items:center;gap:0.8rem;background:var(--mid);padding:1rem;border-radius:var(--radius);cursor:pointer;border:1px solid rgba(255,255,255,0.07);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(232,255,0,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
-                  <input type="radio" name="payment" value="card" style="accent-color:var(--primary);" aria-label="Credit or debit card payment">
-                  <span>💳 Credit / Debit Card (Visa / Mastercard)</span>
-                </label>
-                <label style="display:flex;align-items:center;gap:0.8rem;background:var(--mid);padding:1rem;border-radius:var(--radius);cursor:pointer;border:1px solid rgba(255,255,255,0.07);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(232,255,0,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
-                  <input type="radio" name="payment" value="cod" style="accent-color:var(--primary);" aria-label="Cash on delivery payment">
-                  <span>💵 Cash on Delivery (Accra only)</span>
-                </label>
+              <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);padding:1.5rem;border-radius:var(--radius-lg);margin-bottom:1.5rem;position:relative;overflow:hidden;">
+                <!-- Subtle gradient background pattern -->
+                <div style="position:absolute;top:-50%;right:-50%;width:150px;height:150px;background:radial-gradient(circle, rgba(232,255,0,0.05) 0%, transparent 70%);pointer-events:none;"></div>
+                
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+                  <div style="display:flex;align-items:center;gap:0.8rem;">
+                    <span style="font-size:1.5rem;" aria-hidden="true">💳</span>
+                    <div>
+                      <h4 style="font-family:var(--font-cond);text-transform:uppercase;color:var(--white);margin:0;font-size:1rem;letter-spacing:1px;">Paystack Secure Gateway</h4>
+                      <p style="font-size:0.8rem;color:var(--text-muted);margin:2px 0 0 0;">Unified Electronic Settlement</p>
+                    </div>
+                  </div>
+                  <!-- Secure active badge -->
+                  <span style="font-size:0.75rem;background:rgba(232,255,0,0.1);color:var(--primary);padding:4px 8px;border-radius:4px;font-family:var(--font-cond);text-transform:uppercase;letter-spacing:1px;">Active</span>
+                </div>
+                
+                <p style="font-size:0.9rem;color:var(--text);line-height:1.5;margin-bottom:1rem;">
+                  Pay securely with your preferred payment channel. Paystack supports multiple methods seamlessly in Ghana:
+                </p>
+                
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;font-size:0.85rem;">
+                  <div style="display:flex;align-items:center;gap:0.4rem;color:var(--text-muted);background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:var(--radius);">
+                    📱 MTN MoMo
+                  </div>
+                  <div style="display:flex;align-items:center;gap:0.4rem;color:var(--text-muted);background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:var(--radius);">
+                    📱 Telecel / AirtelTigo
+                  </div>
+                  <div style="display:flex;align-items:center;gap:0.4rem;color:var(--text-muted);background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:var(--radius);">
+                    💳 Visa &amp; Mastercard
+                  </div>
+                  <div style="display:flex;align-items:center;gap:0.4rem;color:var(--text-muted);background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:var(--radius);">
+                    🔒 Bank-level Security
+                  </div>
+                </div>
               </div>
 
-              <div class="info-box" role="note">
-                <p>🔒 Your payment is secured with 256-bit SSL encryption. PayPal transactions and card details are processed through certified secure payment gateways and are never stored on our servers.</p>
+              <div class="info-box" role="note" style="margin-bottom:1.5rem;">
+                <p>🔒 PCI DSS Compliant. Your payment is secure and your card/mobile money details are handled with certified bank-level encryption. FitZone never stores your credentials.</p>
               </div>
 
-              <!-- PayPal Button Container -->
-              <div id="paypal-button-container" style="display:none;margin:1.5rem 0;"></div>
-
-              <!-- Traditional Payment Button (for non-PayPal methods) -->
-              <button type="submit" id="traditionalCheckoutBtn" class="btn btn-primary" style="width:100%;font-size:1.1rem;margin-top:1.2rem;" aria-label="Place your order">🔒 Place Order Securely</button>
+              <!-- Checkout Action Button -->
+              <button type="submit" id="checkoutBtn" class="btn btn-primary" style="width:100%;font-size:1.1rem;margin-top:1.2rem;display:flex;justify-content:center;align-items:center;gap:0.5rem;" aria-label="Pay securely with Paystack">
+                <span>🔒</span> Pay Securely with Paystack
+              </button>
             </form>
           </div>
         </div>
@@ -261,8 +277,8 @@
 
   <div class="toast" id="toast" role="alert" aria-live="polite"></div>
 
-  <!-- PayPal Script SDK -->
-  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=GHS" data-sdk-integration-source="integrationbuilder_sc"></script>
+  <!-- Paystack Inline Popup SDK -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
 
   <script>
     // Nav
@@ -346,169 +362,124 @@
       else { showToast('❌ Invalid promo code'); discount = 0; }
       updateTotals();
     }
+    // Paystack Configuration
+    const PAYSTACK_PUBLIC_KEY = 'pk_test_a1b2c3d4e5f6g7h8i9j0_placeholder'; // Replace with your actual Paystack Public Key
+
     function placeOrder(e) {
       e.preventDefault();
-      if (cart.length === 0) { showToast('⚠️ Your cart is empty!'); return; }
+      if (cart.length === 0) {
+        showToast('⚠️ Your cart is empty!');
+        return;
+      }
       const f = e.target;
       if (!f.chkFirst.value || !f.chkPhone.value || !f.chkEmail.value || !f.chkRegion.value || !f.chkAddress.value) {
-        showToast('⚠️ Please fill in all delivery details.'); return;
+        showToast('⚠️ Please fill in all delivery details.');
+        return;
       }
-      const selectedPayment = document.querySelector('input[name="payment"]:checked').value;
-      if (selectedPayment !== 'paypal') {
-        showToast('✅ Order placed! Confirmation sent to your phone & email.');
-        setTimeout(() => { cart = []; renderCart(); f.reset(); }, 1000);
-      }
-    }
 
-    // Payment method toggle
-    document.querySelectorAll('input[name="payment"]').forEach(radio => {
-      radio.addEventListener('change', function() {
-        const paypalContainer = document.getElementById('paypal-button-container');
-        const traditionalBtn = document.getElementById('traditionalCheckoutBtn');
-        if (this.value === 'paypal') {
-          paypalContainer.style.display = 'block';
-          traditionalBtn.style.display = 'none';
-          initPayPalButtons();
-        } else {
-          paypalContainer.style.display = 'none';
-          traditionalBtn.style.display = 'block';
+      // Compute totals in GHS
+      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const total = subtotal + deliveryCost - discount;
+      
+      // Paystack amount must be in pesewas (GHS * 100)
+      const paystackAmount = Math.round(total * 100);
+
+      const email = f.chkEmail.value.trim();
+      const phone = f.chkPhone.value.trim();
+      const firstName = f.chkFirst.value.trim();
+      const lastName = f.chkLast.value.trim();
+      const region = document.getElementById('chkRegion').value;
+      const address = f.chkAddress.value.trim();
+
+      showToast('🔄 Initializing secure checkout...');
+
+      try {
+        if (typeof PaystackPop === 'undefined') {
+          showToast('❌ Error: Paystack SDK failed to load. Please check your network.');
+          return;
         }
-      });
-    });
 
-    // PayPal Buttons Initialization
-    function initPayPalButtons() {
-      if (window.paypal && window.paypal.Buttons) {
-        // Remove existing buttons if re-initializing
-        const container = document.getElementById('paypal-button-container');
-        container.innerHTML = '';
-        
-        paypal.Buttons({
-          // Set up the transaction
-          createOrder: function(data, actions) {
-            const f = document.getElementById('checkoutForm');
-            // Validate form first
-            if (!f.chkFirst.value || !f.chkPhone.value || !f.chkEmail.value || !f.chkRegion.value || !f.chkAddress.value) {
-              showToast('⚠️ Please fill in all delivery details first.');
-              throw new Error('Incomplete form');
-            }
-            if (cart.length === 0) {
-              showToast('⚠️ Your cart is empty!');
-              throw new Error('Empty cart');
-            }
-            // Calculate total in GHS
-            const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
-            const total = subtotal + deliveryCost - discount;
-            // Return the order details
-            return actions.order.create({
-              purchase_units: [{
-                amount: {
-                  value: (total / 1).toFixed(2), // Convert to decimal for PayPal
-                  currency_code: 'GHS',
-                  breakdown: {
-                    item_total: {
-                      currency_code: 'GHS',
-                      value: (subtotal).toFixed(2)
-                    },
-                    shipping: {
-                      currency_code: 'GHS',
-                      value: (deliveryCost).toFixed(2)
-                    },
-                    discount: {
-                      currency_code: 'GHS',
-                      value: (discount).toFixed(2)
-                    }
-                  }
-                },
-                items: cart.map(item => ({
-                  name: item.name,
-                  unit_amount: {
-                    currency_code: 'GHS',
-                    value: (item.price).toFixed(2)
-                  },
-                  quantity: item.qty.toString()
-                })),
-                shipping: {
-                  name: {
-                    full_name: `${f.chkFirst.value} ${f.chkLast.value}`
-                  },
-                  address: {
-                    address_line_1: f.chkAddress.value,
-                    admin_area_1: document.getElementById('chkRegion').options[document.getElementById('chkRegion').selectedIndex].text.split('(')[0].trim(),
-                    country_code: 'GH'
-                  }
-                }
-              }]
-            });
+        const handler = PaystackPop.setup({
+          key: PAYSTACK_PUBLIC_KEY,
+          email: email,
+          amount: paystackAmount,
+          currency: 'GHS',
+          ref: 'FTZ-' + Math.floor((Math.random() * 1000000000) + 1),
+          metadata: {
+            custom_fields: [
+              {
+                display_name: "Customer Name",
+                variable_name: "customer_name",
+                value: `${firstName} ${lastName}`
+              },
+              {
+                display_name: "Phone Number",
+                variable_name: "phone_number",
+                value: phone
+              },
+              {
+                display_name: "Delivery Region",
+                variable_name: "delivery_region",
+                value: region
+              },
+              {
+                display_name: "Delivery Address",
+                variable_name: "delivery_address",
+                value: address
+              }
+            ]
           },
+          callback: function(response) {
+            console.log('Paystack Payment Successful. Reference:', response.reference);
 
-          // Handle successful payment
-          onApprove: function(data, actions) {
-            return actions.order.capture().then(function(orderData) {
-              const f = document.getElementById('checkoutForm');
-              console.log('Order Details:', orderData);
-              
-              // Store order confirmation
-              const orderConfirmation = {
-                paypalOrderId: orderData.id,
-                firstName: f.chkFirst.value,
-                lastName: f.chkLast.value,
-                email: f.chkEmail.value,
-                phone: f.chkPhone.value,
-                address: f.chkAddress.value,
-                region: document.getElementById('chkRegion').value,
-                items: cart,
-                subtotal: cart.reduce((s, i) => s + i.price * i.qty, 0),
-                delivery: deliveryCost,
-                discount: discount,
-                total: cart.reduce((s, i) => s + i.price * i.qty, 0) + deliveryCost - discount,
-                paymentStatus: orderData.status,
-                timestamp: new Date().toISOString()
-              };
-              
-              // Log for debugging (in production, send to your backend)
-              console.log('Order Confirmation:', orderConfirmation);
-              localStorage.setItem('lastOrderConfirmation', JSON.stringify(orderConfirmation));
-              
-              showToast(`✅ Payment successful! Order #${orderData.id}`);
-              setTimeout(() => { 
-                cart = []; 
-                renderCart(); 
-                f.reset(); 
-                document.querySelector('input[value="paypal"]').click();
-              }, 2000);
-            });
+            // Store order confirmation
+            const orderConfirmation = {
+              paystackReference: response.reference,
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              phone: phone,
+              address: address,
+              region: region,
+              items: cart,
+              subtotal: subtotal,
+              delivery: deliveryCost,
+              discount: discount,
+              total: total,
+              paymentStatus: 'SUCCESS',
+              timestamp: new Date().toISOString()
+            };
+
+            console.log('Order Confirmation Saved:', orderConfirmation);
+            localStorage.setItem('lastOrderConfirmation', JSON.stringify(orderConfirmation));
+
+            showToast(`✅ Payment successful! Reference: ${response.reference}`);
+            
+            // Clean up and clear form
+            setTimeout(() => {
+              cart = [];
+              renderCart();
+              f.reset();
+              // Reset delivery region costing
+              deliveryCost = 50;
+              updateTotals();
+            }, 2500);
           },
-
-          // Handle payment errors
-          onError: function(err) {
-            console.error('PayPal Error:', err);
-            showToast('❌ Payment failed. Please try again.');
-          },
-
-          // Handle when user cancels
-          onCancel: function(data) {
-            console.log('Order canceled by user');
-            showToast('⚠️ Payment canceled. Please try again.');
+          onClose: function() {
+            showToast('⚠️ Payment window closed. Try again when ready.');
           }
-        }).render('#paypal-button-container');
+        });
+
+        handler.openIframe();
+      } catch (error) {
+        console.error('Paystack setup error:', error);
+        showToast('❌ Failed to open secure gateway. Please try again.');
       }
     }
 
     // Initialize on load - set up the page
     window.addEventListener('load', function() {
       renderCart();
-      // PayPal is default, so initialize buttons
-      document.querySelector('input[value="paypal"]').checked = true;
-      const paypalContainer = document.getElementById('paypal-button-container');
-      paypalContainer.style.display = 'block';
-      document.getElementById('traditionalCheckoutBtn').style.display = 'none';
-      // Wait for PayPal SDK to load
-      if (window.paypal) {
-        initPayPalButtons();
-      } else {
-        setTimeout(initPayPalButtons, 1000);
-      }
     });
 
     function searchPage() {
