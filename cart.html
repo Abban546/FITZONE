@@ -161,7 +161,11 @@
               <h3 style="font-family:var(--font-cond);font-size:1.1rem;text-transform:uppercase;letter-spacing:1px;color:var(--primary);margin:1.5rem 0 1rem;">Payment Method</h3>
               <div style="display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1.5rem;" role="radiogroup" aria-label="Select payment method">
                 <label style="display:flex;align-items:center;gap:0.8rem;background:var(--mid);padding:1rem;border-radius:var(--radius);cursor:pointer;border:1px solid rgba(255,255,255,0.07);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(232,255,0,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
-                  <input type="radio" name="payment" value="momo" checked style="accent-color:var(--primary);" aria-label="Mobile Money payment">
+                  <input type="radio" name="payment" value="paypal" checked style="accent-color:var(--primary);" aria-label="PayPal payment">
+                  <span>🅿️ PayPal (Recommended)</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:0.8rem;background:var(--mid);padding:1rem;border-radius:var(--radius);cursor:pointer;border:1px solid rgba(255,255,255,0.07);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(232,255,0,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+                  <input type="radio" name="payment" value="momo" style="accent-color:var(--primary);" aria-label="Mobile Money payment">
                   <span>📱 Mobile Money (MTN / Vodafone / AirtelTigo)</span>
                 </label>
                 <label style="display:flex;align-items:center;gap:0.8rem;background:var(--mid);padding:1rem;border-radius:var(--radius);cursor:pointer;border:1px solid rgba(255,255,255,0.07);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(232,255,0,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
@@ -175,10 +179,14 @@
               </div>
 
               <div class="info-box" role="note">
-                <p>🔒 Your payment is secured with 256-bit SSL encryption. Card details are processed through our PCI DSS Level 1 certified payment gateway and are never stored on our servers.</p>
+                <p>🔒 Your payment is secured with 256-bit SSL encryption. PayPal transactions and card details are processed through certified secure payment gateways and are never stored on our servers.</p>
               </div>
 
-              <button type="submit" class="btn btn-primary" style="width:100%;font-size:1.1rem;margin-top:1.2rem;" aria-label="Place your order">🔒 Place Order Securely</button>
+              <!-- PayPal Button Container -->
+              <div id="paypal-button-container" style="display:none;margin:1.5rem 0;"></div>
+
+              <!-- Traditional Payment Button (for non-PayPal methods) -->
+              <button type="submit" id="traditionalCheckoutBtn" class="btn btn-primary" style="width:100%;font-size:1.1rem;margin-top:1.2rem;" aria-label="Place your order">🔒 Place Order Securely</button>
             </form>
           </div>
         </div>
@@ -252,6 +260,9 @@
   </footer>
 
   <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <!-- PayPal Script SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=GHS" data-sdk-integration-source="integrationbuilder_sc"></script>
 
   <script>
     // Nav
@@ -342,9 +353,163 @@
       if (!f.chkFirst.value || !f.chkPhone.value || !f.chkEmail.value || !f.chkRegion.value || !f.chkAddress.value) {
         showToast('⚠️ Please fill in all delivery details.'); return;
       }
-      showToast('✅ Order placed! Confirmation sent to your phone & email.');
-      setTimeout(() => { cart = []; renderCart(); f.reset(); }, 1000);
+      const selectedPayment = document.querySelector('input[name="payment"]:checked').value;
+      if (selectedPayment !== 'paypal') {
+        showToast('✅ Order placed! Confirmation sent to your phone & email.');
+        setTimeout(() => { cart = []; renderCart(); f.reset(); }, 1000);
+      }
     }
+
+    // Payment method toggle
+    document.querySelectorAll('input[name="payment"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        const paypalContainer = document.getElementById('paypal-button-container');
+        const traditionalBtn = document.getElementById('traditionalCheckoutBtn');
+        if (this.value === 'paypal') {
+          paypalContainer.style.display = 'block';
+          traditionalBtn.style.display = 'none';
+          initPayPalButtons();
+        } else {
+          paypalContainer.style.display = 'none';
+          traditionalBtn.style.display = 'block';
+        }
+      });
+    });
+
+    // PayPal Buttons Initialization
+    function initPayPalButtons() {
+      if (window.paypal && window.paypal.Buttons) {
+        // Remove existing buttons if re-initializing
+        const container = document.getElementById('paypal-button-container');
+        container.innerHTML = '';
+        
+        paypal.Buttons({
+          // Set up the transaction
+          createOrder: function(data, actions) {
+            const f = document.getElementById('checkoutForm');
+            // Validate form first
+            if (!f.chkFirst.value || !f.chkPhone.value || !f.chkEmail.value || !f.chkRegion.value || !f.chkAddress.value) {
+              showToast('⚠️ Please fill in all delivery details first.');
+              throw new Error('Incomplete form');
+            }
+            if (cart.length === 0) {
+              showToast('⚠️ Your cart is empty!');
+              throw new Error('Empty cart');
+            }
+            // Calculate total in GHS
+            const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+            const total = subtotal + deliveryCost - discount;
+            // Return the order details
+            return actions.order.create({
+              purchase_units: [{
+                amount: {
+                  value: (total / 1).toFixed(2), // Convert to decimal for PayPal
+                  currency_code: 'GHS',
+                  breakdown: {
+                    item_total: {
+                      currency_code: 'GHS',
+                      value: (subtotal).toFixed(2)
+                    },
+                    shipping: {
+                      currency_code: 'GHS',
+                      value: (deliveryCost).toFixed(2)
+                    },
+                    discount: {
+                      currency_code: 'GHS',
+                      value: (discount).toFixed(2)
+                    }
+                  }
+                },
+                items: cart.map(item => ({
+                  name: item.name,
+                  unit_amount: {
+                    currency_code: 'GHS',
+                    value: (item.price).toFixed(2)
+                  },
+                  quantity: item.qty.toString()
+                })),
+                shipping: {
+                  name: {
+                    full_name: `${f.chkFirst.value} ${f.chkLast.value}`
+                  },
+                  address: {
+                    address_line_1: f.chkAddress.value,
+                    admin_area_1: document.getElementById('chkRegion').options[document.getElementById('chkRegion').selectedIndex].text.split('(')[0].trim(),
+                    country_code: 'GH'
+                  }
+                }
+              }]
+            });
+          },
+
+          // Handle successful payment
+          onApprove: function(data, actions) {
+            return actions.order.capture().then(function(orderData) {
+              const f = document.getElementById('checkoutForm');
+              console.log('Order Details:', orderData);
+              
+              // Store order confirmation
+              const orderConfirmation = {
+                paypalOrderId: orderData.id,
+                firstName: f.chkFirst.value,
+                lastName: f.chkLast.value,
+                email: f.chkEmail.value,
+                phone: f.chkPhone.value,
+                address: f.chkAddress.value,
+                region: document.getElementById('chkRegion').value,
+                items: cart,
+                subtotal: cart.reduce((s, i) => s + i.price * i.qty, 0),
+                delivery: deliveryCost,
+                discount: discount,
+                total: cart.reduce((s, i) => s + i.price * i.qty, 0) + deliveryCost - discount,
+                paymentStatus: orderData.status,
+                timestamp: new Date().toISOString()
+              };
+              
+              // Log for debugging (in production, send to your backend)
+              console.log('Order Confirmation:', orderConfirmation);
+              localStorage.setItem('lastOrderConfirmation', JSON.stringify(orderConfirmation));
+              
+              showToast(`✅ Payment successful! Order #${orderData.id}`);
+              setTimeout(() => { 
+                cart = []; 
+                renderCart(); 
+                f.reset(); 
+                document.querySelector('input[value="paypal"]').click();
+              }, 2000);
+            });
+          },
+
+          // Handle payment errors
+          onError: function(err) {
+            console.error('PayPal Error:', err);
+            showToast('❌ Payment failed. Please try again.');
+          },
+
+          // Handle when user cancels
+          onCancel: function(data) {
+            console.log('Order canceled by user');
+            showToast('⚠️ Payment canceled. Please try again.');
+          }
+        }).render('#paypal-button-container');
+      }
+    }
+
+    // Initialize on load - set up the page
+    window.addEventListener('load', function() {
+      renderCart();
+      // PayPal is default, so initialize buttons
+      document.querySelector('input[value="paypal"]').checked = true;
+      const paypalContainer = document.getElementById('paypal-button-container');
+      paypalContainer.style.display = 'block';
+      document.getElementById('traditionalCheckoutBtn').style.display = 'none';
+      // Wait for PayPal SDK to load
+      if (window.paypal) {
+        initPayPalButtons();
+      } else {
+        setTimeout(initPayPalButtons, 1000);
+      }
+    });
 
     function searchPage() {
       clearSearch();
@@ -385,8 +550,7 @@
     }
     document.getElementById('pageSearch').addEventListener('keydown', e => { if(e.key==='Enter') searchPage(); });
 
-    // Init
-    renderCart();
+    // Initial render will be handled by window load event below
   </script>
 </body>
 </html>
