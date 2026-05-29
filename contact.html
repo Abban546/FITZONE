@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact FitZone GH – Get in touch via email, phone, WhatsApp or visit our Accra showroom. We reply within 24 hours.">
+  <title>Contact – FitZone GH</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div style="background:#0a0a0a;padding:6px 2rem;display:flex;justify-content:flex-end;align-items:center;gap:1rem;border-bottom:1px solid rgba(255,255,255,0.05);">
+    <div class="font-controls" aria-label="Text size controls">
+      <span>Text size:</span>
+      <button onclick="changeFontSize(-1)" aria-label="Decrease text size">A-</button>
+      <button onclick="changeFontSize(0)"  aria-label="Reset text size">A</button>
+      <button onclick="changeFontSize(1)"  aria-label="Increase text size">A+</button>
+    </div>
+    <button onclick="toggleContrast()" style="background:var(--mid);border:1px solid rgba(255,255,255,0.1);color:var(--text);padding:4px 12px;border-radius:4px;cursor:pointer;font-size:0.8rem;font-family:var(--font-cond);letter-spacing:1px;text-transform:uppercase;" aria-label="Toggle high contrast mode">⬛ High Contrast</button>
+  </div>
+
+  <header role="banner">
+    <nav class="nav-inner" aria-label="Main navigation">
+      <a href="index.html" class="logo" aria-label="FitZone GH Home">FIT<span>ZONE</span> GH</a>
+      <button class="nav-toggle" id="navToggle" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html" class="active" aria-current="page">Contact</a></li>
+        <li><a href="cart.html" aria-label="Shopping cart">🛒 Cart</a></li>
+        <li class="nav-search">
+          <input type="search" id="navSearch" placeholder="Search…" aria-label="Search products">
+          <button onclick="doNavSearch()" aria-label="Submit search">Go</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="page-wrapper">
+
+    <section class="page-hero" aria-label="Contact page header">
+      <p class="breadcrumb"><a href="index.html">Home</a> › Contact</p>
+      <h1>Get In <span>Touch</span></h1>
+      <p>We'd love to hear from you — questions, orders, advice or feedback</p>
+    </section>
+
+    <div class="section">
+
+      <!-- On-page search -->
+      <div class="search-bar-wrapper" role="search">
+        <label for="pageSearch">🔍 Search this page:</label>
+        <input type="search" id="pageSearch" placeholder="e.g. address, email, phone…" aria-label="Search page content">
+        <button onclick="searchPage()" aria-label="Search">Find</button>
+        <button onclick="clearSearch()" style="background:var(--mid);color:var(--text-muted);" aria-label="Clear search">Clear</button>
+      </div>
+
+      <div class="two-col" style="align-items:start;">
+
+        <!-- Contact Form -->
+        <div>
+          <h2 style="font-family:var(--font-display);font-size:2rem;letter-spacing:2px;color:var(--white);margin-bottom:1.5rem;">SEND A <span style="color:var(--primary);">MESSAGE</span></h2>
+          <div class="form-wrapper" style="margin:0;max-width:100%;">
+            <form id="contactForm" onsubmit="submitForm(event)" aria-label="Contact us form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">First Name *</label>
+                  <input type="text" id="firstName" name="firstName" required autocomplete="given-name" aria-required="true" placeholder="Kofi">
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name *</label>
+                  <input type="text" id="lastName" name="lastName" required autocomplete="family-name" aria-required="true" placeholder="Mensah">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required autocomplete="email" aria-required="true" placeholder="kofi@example.com">
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone / WhatsApp</label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+233 244 000 000">
+              </div>
+              <div class="form-group">
+                <label for="subject">Subject *</label>
+                <select id="subject" name="subject" required aria-required="true">
+                  <option value="" disabled selected>Select a topic…</option>
+                  <option value="order">Order Enquiry</option>
+                  <option value="delivery">Delivery &amp; Shipping</option>
+                  <option value="product">Product Question</option>
+                  <option value="return">Returns &amp; Refunds</option>
+                  <option value="bulk">Bulk / Corporate Order</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" required aria-required="true" rows="5" placeholder="Tell us how we can help you…"></textarea>
+              </div>
+              <div class="form-group" style="display:flex;align-items:center;gap:0.7rem;">
+                <input type="checkbox" id="consent" name="consent" required aria-required="true" style="width:auto;accent-color:var(--primary);">
+                <label for="consent" style="text-transform:none;font-size:0.88rem;color:var(--text-muted);letter-spacing:0;">I agree to FitZone GH's <a href="#" style="color:var(--primary);">Privacy Policy</a> and consent to being contacted.</label>
+              </div>
+              <button type="submit" class="btn btn-primary" style="width:100%;font-size:1.05rem;" aria-label="Submit contact form">Send Message →</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h2 style="font-family:var(--font-display);font-size:2rem;letter-spacing:2px;color:var(--white);margin-bottom:1.5rem;">CONTACT <span style="color:var(--primary);">INFO</span></h2>
+
+          <div style="display:flex;flex-direction:column;gap:1.2rem;">
+            <div class="card" style="flex-direction:row;align-items:flex-start;gap:1rem;display:flex;padding:1.3rem 1.5rem;">
+              <span style="font-size:1.8rem;flex-shrink:0;" aria-hidden="true">📍</span>
+              <div>
+                <strong style="font-family:var(--font-cond);text-transform:uppercase;letter-spacing:1px;font-size:0.9rem;color:var(--primary);">Showroom Address</strong>
+                <p style="color:var(--text-muted);font-size:0.9rem;margin-top:0.3rem;">Shop 14, Accra Mall<br>Spintex Road, Accra<br>Ghana</p>
+                <p style="color:var(--text-muted);font-size:0.85rem;margin-top:0.4rem;">Mon–Sat: 9am – 7pm · Sun: 11am – 5pm</p>
+              </div>
+            </div>
+
+            <div class="card" style="flex-direction:row;align-items:flex-start;gap:1rem;display:flex;padding:1.3rem 1.5rem;">
+              <span style="font-size:1.8rem;flex-shrink:0;" aria-hidden="true">📞</span>
+              <div>
+                <strong style="font-family:var(--font-cond);text-transform:uppercase;letter-spacing:1px;font-size:0.9rem;color:var(--primary);">Phone &amp; WhatsApp</strong>
+                <p style="margin-top:0.3rem;"><a href="tel:+233244000000" style="color:var(--text-muted);font-size:0.9rem;" aria-label="Call FitZone GH">+233 244 000 000</a></p>
+                <a href="https://wa.me/233244000000" target="_blank" rel="noopener" class="btn btn-outline" style="padding:7px 16px;font-size:0.85rem;margin-top:0.6rem;display:inline-flex;align-items:center;gap:0.4rem;" aria-label="Chat on WhatsApp">💬 Chat on WhatsApp</a>
+              </div>
+            </div>
+
+            <div class="card" style="flex-direction:row;align-items:flex-start;gap:1rem;display:flex;padding:1.3rem 1.5rem;">
+              <span style="font-size:1.8rem;flex-shrink:0;" aria-hidden="true">📧</span>
+              <div>
+                <strong style="font-family:var(--font-cond);text-transform:uppercase;letter-spacing:1px;font-size:0.9rem;color:var(--primary);">Email</strong>
+                <p style="margin-top:0.3rem;"><a href="mailto:hello@fitzonegh.com" style="color:var(--text-muted);font-size:0.9rem;" aria-label="Email FitZone GH">hello@fitzonegh.com</a></p>
+                <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.2rem;">We reply within 24 hours</p>
+              </div>
+            </div>
+
+            <div class="card" style="flex-direction:row;align-items:flex-start;gap:1rem;display:flex;padding:1.3rem 1.5rem;">
+              <span style="font-size:1.8rem;flex-shrink:0;" aria-hidden="true">🌍</span>
+              <div>
+                <strong style="font-family:var(--font-cond);text-transform:uppercase;letter-spacing:1px;font-size:0.9rem;color:var(--primary);">Social Media</strong>
+                <div class="social-row" style="justify-content:flex-start;margin-top:0.6rem;gap:0.6rem;">
+                  <a href="https://facebook.com"  target="_blank" rel="noopener" class="social-btn fb" style="padding:7px 12px;font-size:0.8rem;" aria-label="Facebook">📘 FB</a>
+                  <a href="https://instagram.com" target="_blank" rel="noopener" class="social-btn ig" style="padding:7px 12px;font-size:0.8rem;" aria-label="Instagram">📸 IG</a>
+                  <a href="https://twitter.com"   target="_blank" rel="noopener" class="social-btn tw" style="padding:7px 12px;font-size:0.8rem;" aria-label="Twitter">🐦 X</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ quick answers -->
+          <div style="margin-top:2rem;">
+            <h3 style="font-family:var(--font-cond);font-size:1.1rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--primary);margin-bottom:1.2rem;">Quick FAQ</h3>
+            <div id="faqAccordion">
+              <details class="card" style="padding:1rem 1.3rem;margin-bottom:0.8rem;cursor:pointer;">
+                <summary style="font-family:var(--font-cond);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;">How long does delivery take? <span style="color:var(--primary);">＋</span></summary>
+                <p style="color:var(--text-muted);font-size:0.9rem;margin-top:0.8rem;line-height:1.7;">Accra: same day if ordered before noon. Greater Accra: within 24hrs. All other regions: 2–4 business days.</p>
+              </details>
+              <details class="card" style="padding:1rem 1.3rem;margin-bottom:0.8rem;cursor:pointer;">
+                <summary style="font-family:var(--font-cond);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;">Do you accept returns? <span style="color:var(--primary);">＋</span></summary>
+                <p style="color:var(--text-muted);font-size:0.9rem;margin-top:0.8rem;line-height:1.7;">Yes — unopened items in original packaging can be returned within 30 days for a full refund or exchange.</p>
+              </details>
+              <details class="card" style="padding:1rem 1.3rem;margin-bottom:0.8rem;cursor:pointer;">
+                <summary style="font-family:var(--font-cond);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;">What payment methods are accepted? <span style="color:var(--primary);">＋</span></summary>
+                <p style="color:var(--text-muted);font-size:0.9rem;margin-top:0.8rem;line-height:1.7;">We accept Mobile Money (MTN, Vodafone, AirtelTigo), Visa/Mastercard and cash on delivery in Accra.</p>
+              </details>
+              <details class="card" style="padding:1rem 1.3rem;cursor:pointer;">
+                <summary style="font-family:var(--font-cond);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;">Are your supplements authentic? <span style="color:var(--primary);">＋</span></summary>
+                <p style="color:var(--text-muted);font-size:0.9rem;margin-top:0.8rem;line-height:1.7;">100% — we source directly from certified distributors and all supplements are NAFDAC registered. We provide batch certificates on request.</p>
+              </details>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /two-col -->
+    </div><!-- /section -->
+  </main>
+
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">FIT<span>ZONE</span> GH</div>
+        <p>Ghana's premier online fitness store. Fast delivery, authentic products, expert advice.</p>
+        <div class="footer-social">
+          <a href="https://facebook.com"  target="_blank" rel="noopener" aria-label="Facebook">📘</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
+          <a href="https://twitter.com"   target="_blank" rel="noopener" aria-label="Twitter">🐦</a>
+          <a href="https://youtube.com"   target="_blank" rel="noopener" aria-label="YouTube">▶️</a>
+        </div>
+      </div>
+      <nav class="footer-col" aria-label="Shop navigation"><h4>Shop</h4><ul><li><a href="products.html">All Products</a></li><li><a href="products.html">Equipment</a></li><li><a href="products.html">Supplements</a></li></ul></nav>
+      <nav class="footer-col" aria-label="Company navigation"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></nav>
+      <nav class="footer-col" aria-label="Support navigation"><h4>Support</h4><ul><li><a href="contact.html">FAQ</a></li><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li></ul></nav>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 FitZone GH. All rights reserved.</span>
+      <span>Secured by <a href="#">SSL</a> · <a href="#">PCI DSS Compliant</a></span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.classList.toggle('open', open); toggle.setAttribute('aria-expanded', open);
+    });
+    function doNavSearch() {
+      const q = document.getElementById('navSearch').value.trim();
+      if (q) window.location.href = 'products.html?q=' + encodeURIComponent(q);
+    }
+    function submitForm(e) {
+      e.preventDefault();
+      const f = e.target;
+      if (!f.firstName.value || !f.email.value || !f.subject.value || !f.message.value || !f.consent.checked) {
+        showToast('⚠️ Please fill in all required fields.');
+        return;
+      }
+      showToast('✅ Message sent! We\'ll reply within 24 hours.');
+      f.reset();
+    }
+    function searchPage() {
+      clearSearch();
+      const query = document.getElementById('pageSearch').value.trim().toLowerCase();
+      if (!query) return;
+      const walker = document.createTreeWalker(document.getElementById('main-content'), NodeFilter.SHOW_TEXT);
+      const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+      let found = 0;
+      nodes.forEach(node => {
+        const idx = node.nodeValue.toLowerCase().indexOf(query);
+        if (idx !== -1 && !['SCRIPT','BUTTON','INPUT','TEXTAREA','SELECT','LABEL'].includes(node.parentElement.tagName)) {
+          const span = document.createElement('mark');
+          span.className = 'search-highlight'; span.setAttribute('data-search-mark','true');
+          const range = document.createRange();
+          range.setStart(node, idx); range.setEnd(node, idx + query.length);
+          range.surroundContents(span);
+          if (found === 0) span.scrollIntoView({ behavior:'smooth', block:'center' });
+          found++;
+        }
+      });
+      showToast(found ? `Found ${found} match${found>1?'es':''}` : 'No matches found');
+    }
+    function clearSearch() {
+      document.querySelectorAll('[data-search-mark]').forEach(m => m.replaceWith(document.createTextNode(m.textContent)));
+    }
+    function showToast(msg) {
+      const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+    const sizes = [12,14,16,18,20]; let sizeIdx = 2;
+    function changeFontSize(dir) {
+      if (dir===0) sizeIdx=2; else sizeIdx=Math.max(0,Math.min(4,sizeIdx+dir));
+      document.documentElement.style.fontSize = sizes[sizeIdx]+'px';
+    }
+    function toggleContrast() {
+      const r = document.documentElement.style;
+      r.setProperty('--dark', r.getPropertyValue('--dark')==='#000000'?'#0A0A0A':'#000000');
+    }
+    document.getElementById('pageSearch').addEventListener('keydown', e => { if(e.key==='Enter') searchPage(); });
+  </script>
+</body>
+</html>

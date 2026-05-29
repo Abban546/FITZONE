@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FitZone GH – Ghana's premier online store for gym equipment and fitness supplements. Shop barbells, dumbbells, protein, and more.">
+  <title>FitZone GH – Gym Equipment &amp; Supplements</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Accessibility: Skip to main content -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Accessibility: Font size controls (WCAG accessible feature 1) -->
+  <div style="background:#0a0a0a;padding:6px 2rem;display:flex;justify-content:flex-end;align-items:center;gap:1rem;border-bottom:1px solid rgba(255,255,255,0.05);">
+    <div class="font-controls" aria-label="Text size controls">
+      <span>Text size:</span>
+      <button onclick="changeFontSize(-1)" aria-label="Decrease text size" title="Decrease text size">A-</button>
+      <button onclick="changeFontSize(0)"  aria-label="Reset text size"    title="Reset text size">A</button>
+      <button onclick="changeFontSize(1)"  aria-label="Increase text size" title="Increase text size">A+</button>
+    </div>
+    <!-- Accessibility Feature 2: High contrast toggle -->
+    <button onclick="toggleContrast()" style="background:var(--mid);border:1px solid rgba(255,255,255,0.1);color:var(--text);padding:4px 12px;border-radius:4px;cursor:pointer;font-size:0.8rem;font-family:var(--font-cond);letter-spacing:1px;text-transform:uppercase;" aria-label="Toggle high contrast mode" title="Toggle high contrast mode">⬛ High Contrast</button>
+  </div>
+
+  <header role="banner">
+    <nav class="nav-inner" aria-label="Main navigation">
+      <a href="index.html" class="logo" aria-label="FitZone GH Home">FIT<span>ZONE</span> GH</a>
+
+      <button class="nav-toggle" id="navToggle" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="index.html"    class="active" aria-current="page">Home</a></li>
+        <li><a href="products.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="cart.html" aria-label="Shopping cart">🛒 Cart</a></li>
+        <li class="nav-search">
+          <input type="search" id="navSearch" placeholder="Search…" aria-label="Search products">
+          <button onclick="doNavSearch()" aria-label="Submit search">Go</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="page-wrapper">
+
+    <!-- HERO with background video (Multimedia 1) -->
+    <section class="hero" aria-label="Welcome to FitZone GH">
+      <video class="hero-video" autoplay muted loop playsinline
+             aria-hidden="true"
+             poster="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=80">
+        <!-- Using a gym/workout-style video from a public CDN -->
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="hero-eyebrow fade-in">Ghana's #1 Fitness Destination</p>
+        <h1 class="hero-title fade-up delay-1">
+          BUILD YOUR<br><span>BEST BODY</span>
+        </h1>
+        <p class="hero-subtitle fade-up delay-2">
+          Premium gym equipment and supplements delivered across Ghana. 
+          Train harder, recover faster, live stronger.
+        </p>
+        <div class="hero-btns fade-up delay-3">
+          <a href="products.html" class="btn btn-primary">Shop Now</a>
+          <a href="about.html"    class="btn btn-outline">Our Story</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST BADGES -->
+    <section class="section-full section-dark" aria-label="Trust and quality indicators">
+      <div class="section" style="padding-top:2rem;padding-bottom:2rem;">
+        <div class="trust-badges" role="list">
+          <div class="trust-badge" role="listitem"><span>🚚</span> Free Delivery over GH₵500</div>
+          <div class="trust-badge" role="listitem"><span>✅</span> Authentic Products</div>
+          <div class="trust-badge" role="listitem"><span>🔒</span> Secure SSL Payments</div>
+          <div class="trust-badge" role="listitem"><span>💪</span> Expert Advice</div>
+          <div class="trust-badge" role="listitem"><span>↩️</span> 30-Day Returns</div>
+          <div class="trust-badge" role="listitem"><span>🇬🇭</span> Ghana-Based</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ON-PAGE SEARCH (required feature) -->
+    <div class="section" style="padding-bottom:0;">
+      <div class="search-bar-wrapper" role="search">
+        <label for="pageSearch">🔍 Search this page:</label>
+        <input type="search" id="pageSearch" placeholder="e.g. dumbbell, protein…" aria-label="Search page content">
+        <button onclick="searchPage()" aria-label="Find on page">Find</button>
+        <button onclick="clearSearch()" style="background:var(--mid);color:var(--text-muted);" aria-label="Clear search">Clear</button>
+      </div>
+    </div>
+
+    <!-- FEATURE CARDS -->
+    <section class="section" aria-labelledby="why-fitzone">
+      <div class="section-header">
+        <h2 id="why-fitzone">Why Choose <span>FitZone GH?</span></h2>
+        <div class="divider"></div>
+        <p>We make building your best physique easy, affordable, and accessible across Ghana.</p>
+      </div>
+      <div class="cards-grid">
+        <article class="card fade-up delay-1">
+          <div class="card-icon" aria-hidden="true">🏋️</div>
+          <h3>Pro-Grade Equipment</h3>
+          <p>Commercial-quality barbells, dumbbells, benches and racks trusted by athletes and home gym enthusiasts alike.</p>
+        </article>
+        <article class="card fade-up delay-2">
+          <div class="card-icon" aria-hidden="true">🧪</div>
+          <h3>Premium Supplements</h3>
+          <p>NAFDAC-registered protein powders, creatine, pre-workouts and vitamins sourced from internationally certified brands.</p>
+        </article>
+        <article class="card fade-up delay-3">
+          <div class="card-icon" aria-hidden="true">🚀</div>
+          <h3>Fast Nationwide Delivery</h3>
+          <p>Accra same-day delivery available. Orders to Greater Accra within 24hrs. All other regions within 3 business days.</p>
+        </article>
+        <article class="card fade-up delay-4">
+          <div class="card-icon" aria-hidden="true">🎓</div>
+          <h3>Expert Guidance</h3>
+          <p>Our certified fitness coaches advise on product selection, training plans, and nutrition to maximise your results.</p>
+        </article>
+        <article class="card fade-up delay-1">
+          <div class="card-icon" aria-hidden="true">💰</div>
+          <h3>Competitive Prices</h3>
+          <p>Best value fitness products in Ghana. Price-match guarantee on equipment and regular loyalty discounts for members.</p>
+        </article>
+        <article class="card fade-up delay-2">
+          <div class="card-icon" aria-hidden="true">🤝</div>
+          <h3>Community Driven</h3>
+          <p>Join 8,000+ FitZone community members. Share progress, get motivated, and win monthly fitness challenges.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- FEATURED PRODUCTS PREVIEW -->
+    <section class="section-full section-mid" aria-labelledby="featured-heading">
+      <div class="section" style="padding-top:3rem;">
+        <div class="section-header">
+          <h2 id="featured-heading">Featured <span>Products</span></h2>
+          <div class="divider"></div>
+          <p>Our bestsellers this season — trusted by thousands of Ghanaians.</p>
+        </div>
+        <div class="product-grid">
+          <article class="product-card">
+            <div class="product-img" style="background:linear-gradient(135deg,#1a1a1a,#2a2a2a);" aria-label="Olympic Barbell product image">🏋️</div>
+            <div class="product-info">
+              <span class="badge">Bestseller</span>
+              <h3>Olympic Barbell 20kg</h3>
+              <p>Professional grade, chrome finish, 220kg capacity</p>
+              <div class="price">GH₵ 890 <small>GH₵ 1,100</small></div>
+              <a href="products.html" class="btn btn-primary" style="width:100%;text-align:center;" aria-label="View Olympic Barbell product details">View Product</a>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-img" style="background:linear-gradient(135deg,#1a1a1a,#2a2a2a);" aria-label="Whey Protein product image">🧴</div>
+            <div class="product-info">
+              <span class="badge badge-green">New</span>
+              <h3>Whey Protein 2kg</h3>
+              <p>25g protein per serving, 6 flavours, NAFDAC certified</p>
+              <div class="price">GH₵ 420 <small>GH₵ 490</small></div>
+              <a href="products.html" class="btn btn-primary" style="width:100%;text-align:center;" aria-label="View Whey Protein product details">View Product</a>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-img" style="background:linear-gradient(135deg,#1a1a1a,#2a2a2a);" aria-label="Adjustable Dumbbell Set product image">🥊</div>
+            <div class="product-info">
+              <h3>Adjustable Dumbbell Set</h3>
+              <p>5–30kg adjustable, space-saving design for home gyms</p>
+              <div class="price">GH₵ 650</div>
+              <a href="products.html" class="btn btn-primary" style="width:100%;text-align:center;" aria-label="View Adjustable Dumbbell product details">View Product</a>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-img" style="background:linear-gradient(135deg,#1a1a1a,#2a2a2a);" aria-label="Pre-Workout Supplement product image">⚡</div>
+            <div class="product-info">
+              <span class="badge">Hot Deal</span>
+              <h3>Pre-Workout Energy</h3>
+              <p>Explosive energy, focus & endurance blend, 40 servings</p>
+              <div class="price">GH₵ 260 <small>GH₵ 320</small></div>
+              <a href="products.html" class="btn btn-primary" style="width:100%;text-align:center;" aria-label="View Pre-Workout product details">View Product</a>
+            </div>
+          </article>
+        </div>
+        <div class="text-center mt-3">
+          <a href="products.html" class="btn btn-accent">Browse All Products →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMO BANNER -->
+    <section class="section" aria-label="Promotional offer">
+      <div class="promo-banner">
+        <div>
+          <h2>JUNE MEGA SALE 🔥</h2>
+          <p>Up to 35% off selected gym equipment. This week only.</p>
+        </div>
+        <a href="products.html" class="btn btn-accent" style="white-space:nowrap;">Claim Offer</a>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section-full section-dark" aria-labelledby="testimonials-heading">
+      <div class="section">
+        <div class="section-header">
+          <h2 id="testimonials-heading">What Our <span>Customers Say</span></h2>
+          <div class="divider"></div>
+        </div>
+        <div class="testimonials-grid">
+          <blockquote class="testimonial">
+            <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p>"Ordered my full home gym setup from FitZone and the quality exceeded my expectations. Delivery was fast and the team helped me choose the right equipment."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar" aria-hidden="true">👨🏿</div>
+              <div><strong>Kwame Asante</strong><span>Accra, Ghana</span></div>
+            </div>
+          </blockquote>
+          <blockquote class="testimonial">
+            <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p>"The protein supplements are authentic and reasonably priced. I've been using FitZone for over a year – never been disappointed once!"</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar" aria-hidden="true">👩🏿</div>
+              <div><strong>Abena Mensah</strong><span>Kumasi, Ghana</span></div>
+            </div>
+          </blockquote>
+          <blockquote class="testimonial">
+            <div class="testimonial-stars" aria-label="4 out of 5 stars">★★★★☆</div>
+            <p>"Great customer service. They called me to confirm my order and even offered free delivery because I was close to the threshold. Will definitely return!"</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar" aria-hidden="true">👨🏾</div>
+              <div><strong>Kofi Boateng</strong><span>Tema, Ghana</span></div>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOCIAL MEDIA SECTION -->
+    <section class="section" aria-labelledby="social-heading">
+      <div class="section-header">
+        <h2 id="social-heading">Follow Us &amp; <span>Stay Connected</span></h2>
+        <div class="divider"></div>
+        <p>Join the FitZone community on social media.</p>
+      </div>
+      <div class="social-row" role="list" aria-label="Social media links">
+        <a href="https://facebook.com" target="_blank" rel="noopener" class="social-btn fb" role="listitem" aria-label="Follow FitZone GH on Facebook">📘 Facebook</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="social-btn ig" role="listitem" aria-label="Follow FitZone GH on Instagram">📸 Instagram</a>
+        <a href="https://twitter.com"   target="_blank" rel="noopener" class="social-btn tw" role="listitem" aria-label="Follow FitZone GH on Twitter/X">🐦 Twitter / X</a>
+        <a href="https://youtube.com"   target="_blank" rel="noopener" class="social-btn yt" role="listitem" aria-label="Subscribe to FitZone GH on YouTube">▶️ YouTube</a>
+        <a href="https://wa.me/233244000000" target="_blank" rel="noopener" class="social-btn wa" role="listitem" aria-label="Chat with FitZone GH on WhatsApp">💬 WhatsApp</a>
+        <a href="https://tiktok.com"    target="_blank" rel="noopener" class="social-btn tk" role="listitem" aria-label="Follow FitZone GH on TikTok">🎵 TikTok</a>
+      </div>
+
+      <!-- Social Media Newsfeed Widget -->
+      <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin-top:2rem;">
+        <div class="newsfeed-widget" role="complementary" aria-label="Instagram newsfeed">
+          <div class="newsfeed-header">
+            <span class="feed-icon" aria-hidden="true">📸</span>
+            <div><strong>@FitZoneGH</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">Instagram Feed</span></div>
+          </div>
+          <div class="feed-post">💪 New barbell plates just arrived! Get them while stock lasts. <span class="feed-tag">#FitZoneGH #GhanaFitness</span>
+            <div class="feed-meta">2 hours ago · 84 likes</div>
+          </div>
+          <div class="feed-post">🎉 Congrats to our June challenge winner – Abena from Kumasi! <span class="feed-tag">#FitnessChallenge</span>
+            <div class="feed-meta">1 day ago · 210 likes</div>
+          </div>
+          <div class="feed-post">🧴 Chocolate Whey restock is live! Link in bio. <span class="feed-tag">#WheyProtein</span>
+            <div class="feed-meta">2 days ago · 156 likes</div>
+          </div>
+          <div class="feed-post">🏋️ Tuesday motivation – show us your home gym setup! <span class="feed-tag">#HomeGym</span>
+            <div class="feed-meta">3 days ago · 98 likes</div>
+          </div>
+        </div>
+        <div class="newsfeed-widget" role="complementary" aria-label="Facebook newsfeed">
+          <div class="newsfeed-header">
+            <span class="feed-icon" aria-hidden="true">📘</span>
+            <div><strong>FitZone Ghana</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">Facebook Feed</span></div>
+          </div>
+          <div class="feed-post">🚚 Orders placed before 12pm ship same day within Accra. Order now! <span class="feed-tag">#SameDay</span>
+            <div class="feed-meta">3 hours ago · 45 shares</div>
+          </div>
+          <div class="feed-post">📺 Watch our new YouTube workout series – link in comments below!
+            <div class="feed-meta">Yesterday · 32 shares</div>
+          </div>
+          <div class="feed-post">🏆 We're proud to sponsor the Ghana Fitness Expo 2025! See you there!
+            <div class="feed-meta">2 days ago · 78 shares</div>
+          </div>
+          <div class="feed-post">⭐ Another 5-star review from a happy customer in Takoradi. Thank you! <span class="feed-tag">#CustomerLove</span>
+            <div class="feed-meta">3 days ago · 21 shares</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MULTIMEDIA: Embedded YouTube (Multimedia 2) -->
+    <section class="section-full section-mid" aria-labelledby="video-heading">
+      <div class="section" style="padding-top:3rem;">
+        <div class="section-header">
+          <h2 id="video-heading">Watch Us <span>In Action</span></h2>
+          <div class="divider"></div>
+          <p>Training guides and product demos from our certified coaches.</p>
+        </div>
+        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius-lg);border:1px solid rgba(232,255,0,0.1);">
+          <iframe
+            src="https://www.youtube.com/embed/vc1E5CfRfos"
+            title="FitZone GH Training Tutorial – How to set up a home gym"
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+        <p style="text-align:center;color:var(--text-muted);margin-top:1rem;font-size:0.9rem;">
+          Home gym setup guide. <a href="https://youtube.com" target="_blank" rel="noopener" style="color:var(--primary);">Subscribe to our channel</a> for weekly workout content.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">FIT<span>ZONE</span> GH</div>
+        <p>Ghana's premier online store for gym equipment and fitness supplements. Building stronger bodies since 2019.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="https://facebook.com"  target="_blank" rel="noopener" aria-label="Facebook">📘</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
+          <a href="https://twitter.com"   target="_blank" rel="noopener" aria-label="Twitter">🐦</a>
+          <a href="https://youtube.com"   target="_blank" rel="noopener" aria-label="YouTube">▶️</a>
+          <a href="https://wa.me/233244000000" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+        </div>
+      </div>
+      <nav class="footer-col" aria-label="Shop navigation">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="products.html">All Products</a></li>
+          <li><a href="products.html">Gym Equipment</a></li>
+          <li><a href="products.html">Supplements</a></li>
+          <li><a href="products.html">Accessories</a></li>
+          <li><a href="products.html">New Arrivals</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Company navigation">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Support navigation">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="contact.html">FAQ</a></li>
+          <li><a href="#">Shipping Info</a></li>
+          <li><a href="#">Returns Policy</a></li>
+          <li><a href="#">Track Order</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 FitZone GH. All rights reserved.</span>
+      <span>Secured by <a href="#">SSL Certificate</a> · <a href="#">PCI DSS Compliant</a></span>
+    </div>
+  </footer>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <script>
+    // ── Navigation Toggle ──
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
+    });
+
+    // ── Nav Search ──
+    function doNavSearch() {
+      const q = document.getElementById('navSearch').value.trim();
+      if (q) window.location.href = 'products.html?q=' + encodeURIComponent(q);
+    }
+    document.getElementById('navSearch').addEventListener('keydown', e => {
+      if (e.key === 'Enter') doNavSearch();
+    });
+
+    // ── On-page text search ──
+    let highlighted = false;
+    function searchPage() {
+      clearSearch();
+      const query = document.getElementById('pageSearch').value.trim().toLowerCase();
+      if (!query) return;
+      const walker = document.createTreeWalker(document.getElementById('main-content'), NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      let found = 0;
+      nodes.forEach(node => {
+        const idx = node.nodeValue.toLowerCase().indexOf(query);
+        if (idx !== -1 && node.parentElement.tagName !== 'SCRIPT') {
+          const span = document.createElement('mark');
+          span.className = 'search-highlight';
+          span.setAttribute('data-search-mark', 'true');
+          const range = document.createRange();
+          range.setStart(node, idx);
+          range.setEnd(node, idx + query.length);
+          range.surroundContents(span);
+          if (found === 0) span.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          found++;
+        }
+      });
+      showToast(found ? `Found ${found} match${found>1?'es':''}` : 'No matches found');
+      highlighted = true;
+    }
+    function clearSearch() {
+      document.querySelectorAll('[data-search-mark]').forEach(m => {
+        m.replaceWith(document.createTextNode(m.textContent));
+      });
+      highlighted = false;
+    }
+
+    // ── Toast ──
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    // ── Font size accessibility ──
+    const sizes = [12, 14, 16, 18, 20];
+    let sizeIdx = 2;
+    function changeFontSize(dir) {
+      if (dir === 0) sizeIdx = 2;
+      else sizeIdx = Math.max(0, Math.min(sizes.length - 1, sizeIdx + dir));
+      document.documentElement.style.fontSize = sizes[sizeIdx] + 'px';
+    }
+
+    // ── High contrast accessibility ──
+    function toggleContrast() {
+      document.documentElement.style.setProperty('--text',    document.documentElement.style.getPropertyValue('--text')    === '#ffffff' ? '#f0f0f0' : '#ffffff');
+      document.documentElement.style.setProperty('--dark',    document.documentElement.style.getPropertyValue('--dark')    === '#000000' ? '#0A0A0A' : '#000000');
+      document.documentElement.style.setProperty('--primary', document.documentElement.style.getPropertyValue('--primary') === '#ffff00' ? '#E8FF00' : '#ffff00');
+    }
+
+    // ── Enter key for on-page search ──
+    document.getElementById('pageSearch').addEventListener('keydown', e => {
+      if (e.key === 'Enter') searchPage();
+    });
+  </script>
+</body>
+</html>

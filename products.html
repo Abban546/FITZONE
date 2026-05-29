@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shop gym equipment and fitness supplements at FitZone GH. Barbells, dumbbells, protein powder, creatine and more. Fast delivery across Ghana.">
+  <title>Shop – FitZone GH</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div style="background:#0a0a0a;padding:6px 2rem;display:flex;justify-content:flex-end;align-items:center;gap:1rem;border-bottom:1px solid rgba(255,255,255,0.05);">
+    <div class="font-controls" aria-label="Text size controls">
+      <span>Text size:</span>
+      <button onclick="changeFontSize(-1)" aria-label="Decrease text size">A-</button>
+      <button onclick="changeFontSize(0)"  aria-label="Reset text size">A</button>
+      <button onclick="changeFontSize(1)"  aria-label="Increase text size">A+</button>
+    </div>
+    <button onclick="toggleContrast()" style="background:var(--mid);border:1px solid rgba(255,255,255,0.1);color:var(--text);padding:4px 12px;border-radius:4px;cursor:pointer;font-size:0.8rem;font-family:var(--font-cond);letter-spacing:1px;text-transform:uppercase;" aria-label="Toggle high contrast mode">⬛ High Contrast</button>
+  </div>
+
+  <header role="banner">
+    <nav class="nav-inner" aria-label="Main navigation">
+      <a href="index.html" class="logo" aria-label="FitZone GH Home">FIT<span>ZONE</span> GH</a>
+      <button class="nav-toggle" id="navToggle" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html" class="active" aria-current="page">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="cart.html" aria-label="Shopping cart">🛒 Cart</a></li>
+        <li class="nav-search">
+          <input type="search" id="navSearch" placeholder="Search…" aria-label="Search products">
+          <button onclick="doNavSearch()" aria-label="Submit search">Go</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="page-wrapper">
+
+    <!-- Page Hero -->
+    <section class="page-hero" aria-label="Shop page header">
+      <p class="breadcrumb"><a href="index.html">Home</a> › Shop</p>
+      <h1>Our <span>Products</span></h1>
+      <p>Premium gym equipment and supplements delivered across Ghana</p>
+    </section>
+
+    <div class="section">
+
+      <!-- On-page search -->
+      <div class="search-bar-wrapper" role="search">
+        <label for="pageSearch">🔍 Search products:</label>
+        <input type="search" id="pageSearch" placeholder="e.g. barbell, creatine, bench…" aria-label="Search products on page">
+        <button onclick="searchPage()" aria-label="Search">Find</button>
+        <button onclick="clearSearch()" style="background:var(--mid);color:var(--text-muted);" aria-label="Clear search">Clear</button>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar" role="group" aria-label="Filter products by category">
+        <button class="filter-btn active" onclick="filterProducts('all', this)"    aria-pressed="true">All</button>
+        <button class="filter-btn"        onclick="filterProducts('equipment', this)" aria-pressed="false">Equipment</button>
+        <button class="filter-btn"        onclick="filterProducts('supplements', this)" aria-pressed="false">Supplements</button>
+        <button class="filter-btn"        onclick="filterProducts('accessories', this)" aria-pressed="false">Accessories</button>
+        <button class="filter-btn"        onclick="filterProducts('sale', this)"   aria-pressed="false">🔥 On Sale</button>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="product-grid" id="productGrid" aria-label="Product listings">
+
+        <!-- Equipment -->
+        <article class="product-card" data-category="equipment">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Olympic Barbell 20kg">🏋️</div>
+          <div class="product-info">
+            <span class="badge">Bestseller</span>
+            <h3>Olympic Barbell 20kg</h3>
+            <p>Professional-grade chrome finish, 220kg capacity, 28mm grip diameter. Ideal for powerlifting and Olympic lifts.</p>
+            <div class="price">GH₵ 890 <small>GH₵ 1,100</small></div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Olympic Barbell 20kg','890')" aria-label="Add Olympic Barbell 20kg to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="equipment">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Adjustable Dumbbell Set">🥊</div>
+          <div class="product-info">
+            <h3>Adjustable Dumbbell Set</h3>
+            <p>5–30kg per dumbbell, quick-change dial, space-saving design. Perfect for home gyms.</p>
+            <div class="price">GH₵ 650</div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Adjustable Dumbbell Set','650')" aria-label="Add Adjustable Dumbbell Set to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="equipment sale">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Adjustable Weight Bench">🪑</div>
+          <div class="product-info">
+            <span class="badge">Sale</span>
+            <h3>Adjustable Weight Bench</h3>
+            <p>7 incline positions, 300kg capacity, foldable for storage. Built for home and commercial use.</p>
+            <div class="price">GH₵ 560 <small>GH₵ 720</small></div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Adjustable Weight Bench','560')" aria-label="Add Adjustable Weight Bench to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="equipment">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Power Rack with Pull-Up Bar">🏗️</div>
+          <div class="product-info">
+            <h3>Power Rack + Pull-Up Bar</h3>
+            <p>Heavy-duty steel, J-hooks, safety spotter arms. Supports 400kg. Home and gym use.</p>
+            <div class="price">GH₵ 2,400</div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Power Rack + Pull-Up Bar','2400')" aria-label="Add Power Rack to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="equipment sale">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Rubber Weight Plates Set">⚙️</div>
+          <div class="product-info">
+            <span class="badge">Sale</span>
+            <h3>Rubber Weight Plates 20kg Set</h3>
+            <p>Anti-odour rubber coating, standard 50mm hole, set of 4×5kg. Floor-safe design.</p>
+            <div class="price">GH₵ 310 <small>GH₵ 390</small></div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Rubber Weight Plates 20kg','310')" aria-label="Add Rubber Weight Plates to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="equipment">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Treadmill">🏃</div>
+          <div class="product-info">
+            <span class="badge badge-green">New</span>
+            <h3>Motorised Treadmill T500</h3>
+            <p>2.5HP motor, 0–18 km/h, 12 preset programs, foldable frame. Bluetooth + tablet holder.</p>
+            <div class="price">GH₵ 4,800</div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Motorised Treadmill T500','4800')" aria-label="Add Treadmill to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- Supplements -->
+        <article class="product-card" data-category="supplements">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Whey Protein 2kg">🧴</div>
+          <div class="product-info">
+            <span class="badge badge-green">New</span>
+            <h3>Whey Protein 2kg</h3>
+            <p>25g protein per serving, 6 flavours available. NAFDAC certified. Mixes easily, zero clumping.</p>
+            <div class="price">GH₵ 420 <small>GH₵ 490</small></div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Whey Protein 2kg','420')" aria-label="Add Whey Protein to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="supplements sale">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Pre-Workout Energy Supplement">⚡</div>
+          <div class="product-info">
+            <span class="badge">Hot Deal</span>
+            <h3>Pre-Workout Energy 400g</h3>
+            <p>High-stimulant formula, 40 servings. Citrus Burst & Watermelon flavours. Boosts focus and endurance.</p>
+            <div class="price">GH₵ 260 <small>GH₵ 320</small></div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Pre-Workout Energy','260')" aria-label="Add Pre-Workout to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="supplements">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Creatine Monohydrate">🔬</div>
+          <div class="product-info">
+            <h3>Creatine Monohydrate 500g</h3>
+            <p>Pharmaceutical-grade creatine, unflavoured. 5g daily dose. Builds strength and power over time.</p>
+            <div class="price">GH₵ 180</div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Creatine Monohydrate','180')" aria-label="Add Creatine to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="supplements">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="BCAA Amino Acids">💊</div>
+          <div class="product-info">
+            <h3>BCAA Amino Acids 300g</h3>
+            <p>2:1:1 ratio Leucine:Isoleucine:Valine. Reduces muscle breakdown, speeds recovery. Tropical flavour.</p>
+            <div class="price">GH₵ 210</div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('BCAA Amino Acids','210')" aria-label="Add BCAA to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="supplements sale">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Mass Gainer Supplement">🍫</div>
+          <div class="product-info">
+            <span class="badge">Sale</span>
+            <h3>Mass Gainer 3kg</h3>
+            <p>600 calories per serving, 35g protein. Chocolate and Vanilla. For lean bulk and weight gain goals.</p>
+            <div class="price">GH₵ 360 <small>GH₵ 430</small></div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Mass Gainer 3kg','360')" aria-label="Add Mass Gainer to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- Accessories -->
+        <article class="product-card" data-category="accessories">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Gym Gloves">🧤</div>
+          <div class="product-info">
+            <h3>Gym Gloves (Pair)</h3>
+            <p>Padded palm, breathable mesh back, wrist wrap support. Available in S/M/L/XL.</p>
+            <div class="price">GH₵ 65</div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Gym Gloves','65')" aria-label="Add Gym Gloves to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="accessories">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Resistance Bands Set">🎗️</div>
+          <div class="product-info">
+            <span class="badge badge-green">New</span>
+            <h3>Resistance Band Set (5 bands)</h3>
+            <p>5 resistance levels (5–40kg). Latex-free, door anchor included. Ideal for rehab and activation.</p>
+            <div class="price">GH₵ 95</div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Resistance Band Set','95')" aria-label="Add Resistance Bands to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="accessories sale">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Foam Roller">🛞</div>
+          <div class="product-info">
+            <span class="badge">Sale</span>
+            <h3>Foam Roller 60cm</h3>
+            <p>High-density EVA foam, textured surface for deep muscle release. Full-body recovery tool.</p>
+            <div class="price">GH₵ 75 <small>GH₵ 100</small></div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Foam Roller','75')" aria-label="Add Foam Roller to cart">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="accessories">
+          <div class="product-img" style="background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:3.5rem;" aria-label="Shaker Bottle">🥤</div>
+          <div class="product-info">
+            <h3>Shaker Bottle 700ml</h3>
+            <p>BPA-free Tritan plastic, BlenderBall wire whisk, leak-proof lid. FitZone branded.</p>
+            <div class="price">GH₵ 40</div>
+            <button class="btn btn-primary" style="width:100%;" onclick="addToCart('Shaker Bottle','40')" aria-label="Add Shaker Bottle to cart">Add to Cart</button>
+          </div>
+        </article>
+
+      </div><!-- /product-grid -->
+
+      <!-- Info box -->
+      <div class="info-box" style="margin-top:3rem;" role="note">
+        <p>🔒 All products are authentic and sourced directly from certified manufacturers. Payment is secured via SSL encryption and our systems are PCI DSS compliant.</p>
+      </div>
+
+    </div><!-- /section -->
+  </main>
+
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">FIT<span>ZONE</span> GH</div>
+        <p>Ghana's premier online fitness store. Fast delivery, authentic products, expert advice.</p>
+        <div class="footer-social">
+          <a href="https://facebook.com"  target="_blank" rel="noopener" aria-label="Facebook">📘</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
+          <a href="https://twitter.com"   target="_blank" rel="noopener" aria-label="Twitter">🐦</a>
+          <a href="https://youtube.com"   target="_blank" rel="noopener" aria-label="YouTube">▶️</a>
+        </div>
+      </div>
+      <nav class="footer-col" aria-label="Shop navigation">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="products.html">All Products</a></li>
+          <li><a href="products.html">Equipment</a></li>
+          <li><a href="products.html">Supplements</a></li>
+          <li><a href="products.html">Accessories</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Company navigation">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Support navigation">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="contact.html">FAQ</a></li>
+          <li><a href="#">Shipping Info</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="cart.html">View Cart</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 FitZone GH. All rights reserved.</span>
+      <span>Secured by <a href="#">SSL</a> · <a href="#">PCI DSS Compliant</a></span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <script>
+    // Nav toggle
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
+    });
+    function doNavSearch() {
+      const q = document.getElementById('navSearch').value.trim();
+      if (q) { document.getElementById('pageSearch').value = q; searchPage(); }
+    }
+
+    // Filter
+    function filterProducts(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+      btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
+      document.querySelectorAll('.product-card').forEach(card => {
+        const cats = card.dataset.category || '';
+        card.style.display = (cat === 'all' || cats.includes(cat)) ? '' : 'none';
+      });
+    }
+
+    // Cart
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('fitzone_cart') || '[]');
+      const existing = cart.find(i => i.name === name);
+      if (existing) existing.qty++;
+      else cart.push({ name, price: parseInt(price), qty: 1 });
+      localStorage.setItem('fitzone_cart', JSON.stringify(cart));
+      showToast(`✅ ${name} added to cart!`);
+    }
+
+    // On-page search
+    function searchPage() {
+      clearSearch();
+      const query = document.getElementById('pageSearch').value.trim().toLowerCase();
+      if (!query) return;
+      const walker = document.createTreeWalker(document.getElementById('productGrid'), NodeFilter.SHOW_TEXT);
+      const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+      let found = 0;
+      nodes.forEach(node => {
+        const idx = node.nodeValue.toLowerCase().indexOf(query);
+        if (idx !== -1 && !['SCRIPT','BUTTON'].includes(node.parentElement.tagName)) {
+          const span = document.createElement('mark');
+          span.className = 'search-highlight'; span.setAttribute('data-search-mark','true');
+          const range = document.createRange();
+          range.setStart(node, idx); range.setEnd(node, idx + query.length);
+          range.surroundContents(span);
+          if (found === 0) span.scrollIntoView({ behavior:'smooth', block:'center' });
+          found++;
+        }
+      });
+      showToast(found ? `Found ${found} match${found>1?'es':''}` : 'No matches found');
+    }
+    function clearSearch() {
+      document.querySelectorAll('[data-search-mark]').forEach(m => m.replaceWith(document.createTextNode(m.textContent)));
+    }
+
+    // Toast
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    // Accessibility
+    const sizes = [12,14,16,18,20]; let sizeIdx = 2;
+    function changeFontSize(dir) {
+      if (dir===0) sizeIdx=2; else sizeIdx=Math.max(0,Math.min(4,sizeIdx+dir));
+      document.documentElement.style.fontSize = sizes[sizeIdx]+'px';
+    }
+    function toggleContrast() {
+      const r = document.documentElement.style;
+      r.setProperty('--dark', r.getPropertyValue('--dark')==='#000000'?'#0A0A0A':'#000000');
+    }
+
+    // URL query pre-fill
+    const urlQ = new URLSearchParams(window.location.search).get('q');
+    if (urlQ) { document.getElementById('pageSearch').value = urlQ; searchPage(); }
+
+    document.getElementById('pageSearch').addEventListener('keydown', e => { if(e.key==='Enter') searchPage(); });
+  </script>
+</body>
+</html>

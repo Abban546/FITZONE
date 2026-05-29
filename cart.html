@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FitZone GH Shopping Cart – Review your items and checkout securely. PCI DSS compliant, SSL secured.">
+  <title>Cart &amp; Checkout – FitZone GH</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div style="background:#0a0a0a;padding:6px 2rem;display:flex;justify-content:flex-end;align-items:center;gap:1rem;border-bottom:1px solid rgba(255,255,255,0.05);">
+    <div class="font-controls" aria-label="Text size controls">
+      <span>Text size:</span>
+      <button onclick="changeFontSize(-1)" aria-label="Decrease text size">A-</button>
+      <button onclick="changeFontSize(0)"  aria-label="Reset text size">A</button>
+      <button onclick="changeFontSize(1)"  aria-label="Increase text size">A+</button>
+    </div>
+    <button onclick="toggleContrast()" style="background:var(--mid);border:1px solid rgba(255,255,255,0.1);color:var(--text);padding:4px 12px;border-radius:4px;cursor:pointer;font-size:0.8rem;font-family:var(--font-cond);letter-spacing:1px;text-transform:uppercase;" aria-label="Toggle high contrast mode">⬛ High Contrast</button>
+  </div>
+
+  <header role="banner">
+    <nav class="nav-inner" aria-label="Main navigation">
+      <a href="index.html" class="logo" aria-label="FitZone GH Home">FIT<span>ZONE</span> GH</a>
+      <button class="nav-toggle" id="navToggle" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="cart.html" class="active" aria-current="page">🛒 Cart</a></li>
+        <li class="nav-search">
+          <input type="search" id="navSearch" placeholder="Search…" aria-label="Search products">
+          <button onclick="doNavSearch()" aria-label="Submit search">Go</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="page-wrapper">
+
+    <section class="page-hero" aria-label="Cart page header">
+      <p class="breadcrumb"><a href="index.html">Home</a> › Cart</p>
+      <h1>Your <span>Cart</span></h1>
+      <p>Review your items and proceed to secure checkout</p>
+    </section>
+
+    <div class="section">
+
+      <!-- On-page search -->
+      <div class="search-bar-wrapper" role="search">
+        <label for="pageSearch">🔍 Search your cart:</label>
+        <input type="search" id="pageSearch" placeholder="e.g. barbell, protein…" aria-label="Search cart items">
+        <button onclick="searchPage()" aria-label="Search">Find</button>
+        <button onclick="clearSearch()" style="background:var(--mid);color:var(--text-muted);" aria-label="Clear search">Clear</button>
+      </div>
+
+      <div class="two-col" style="align-items:start;" id="cartSection">
+
+        <!-- Cart Items -->
+        <div>
+          <h2 style="font-family:var(--font-display);font-size:1.8rem;letter-spacing:2px;color:var(--white);margin-bottom:1.5rem;">CART <span style="color:var(--primary);">ITEMS</span></h2>
+
+          <div id="cartEmpty" style="display:none;text-align:center;padding:3rem;background:var(--dark3);border-radius:var(--radius-lg);border:1px solid rgba(232,255,0,0.08);">
+            <div style="font-size:4rem;margin-bottom:1rem;" aria-hidden="true">🛒</div>
+            <h3 style="font-family:var(--font-cond);font-size:1.3rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.8rem;">Your cart is empty</h3>
+            <p style="color:var(--text-muted);margin-bottom:1.5rem;">Add some products to get started!</p>
+            <a href="products.html" class="btn btn-primary">Browse Products</a>
+          </div>
+
+          <div id="cartTableWrapper" style="overflow-x:auto;">
+            <table class="cart-table" id="cartTable" aria-label="Cart items">
+              <thead>
+                <tr>
+                  <th scope="col">Product</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Qty</th>
+                  <th scope="col">Subtotal</th>
+                  <th scope="col"><span class="sr-only">Remove</span></th>
+                </tr>
+              </thead>
+              <tbody id="cartBody"></tbody>
+            </table>
+          </div>
+
+          <div id="cartActions" style="display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;">
+            <a href="products.html" class="btn btn-outline">← Continue Shopping</a>
+            <button onclick="clearCart()" class="btn" style="background:var(--mid);color:var(--text-muted);border-color:var(--mid);" aria-label="Clear all items from cart">Clear Cart</button>
+          </div>
+        </div>
+
+        <!-- Order Summary + Checkout -->
+        <div>
+          <h2 style="font-family:var(--font-display);font-size:1.8rem;letter-spacing:2px;color:var(--white);margin-bottom:1.5rem;">ORDER <span style="color:var(--primary);">SUMMARY</span></h2>
+
+          <div class="cart-total" id="orderSummary" aria-label="Order total summary">
+            <div class="cart-total-row"><span>Subtotal</span><span id="subtotalDisplay">GH₵ 0</span></div>
+            <div class="cart-total-row"><span>Delivery (Accra)</span><span id="deliveryDisplay">GH₵ 50</span></div>
+            <div class="cart-total-row"><span>Discount</span><span id="discountDisplay" style="color:var(--primary);">– GH₵ 0</span></div>
+            <div class="cart-total-row grand"><span>TOTAL</span><span id="totalDisplay">GH₵ 50</span></div>
+            <div style="margin-top:0.8rem;display:flex;gap:0.6rem;">
+              <input type="text" id="promoCode" placeholder="Promo code" aria-label="Enter promo code"
+                     style="flex:1;background:var(--mid);border:1px solid rgba(255,255,255,0.1);border-radius:4px;color:var(--text);padding:8px 12px;font-family:var(--font-body);font-size:0.9rem;outline:none;">
+              <button onclick="applyPromo()" class="btn btn-outline" style="padding:8px 16px;font-size:0.85rem;" aria-label="Apply promo code">Apply</button>
+            </div>
+          </div>
+
+          <!-- Security badges -->
+          <div class="trust-badges" style="margin:1.5rem 0;padding:1.2rem;flex-wrap:wrap;gap:1rem;" role="list" aria-label="Security assurances">
+            <div class="trust-badge" role="listitem"><span>🔒</span> SSL Secured</div>
+            <div class="trust-badge" role="listitem"><span>💳</span> PCI DSS Compliant</div>
+            <div class="trust-badge" role="listitem"><span>🛡️</span> Fraud Protected</div>
+          </div>
+
+          <!-- Checkout Form -->
+          <div class="form-wrapper" style="margin:0;max-width:100%;" aria-label="Checkout details form">
+            <h3 style="font-family:var(--font-cond);font-size:1.1rem;text-transform:uppercase;letter-spacing:1px;color:var(--primary);margin-bottom:1.5rem;">Delivery Details</h3>
+            <form id="checkoutForm" onsubmit="placeOrder(event)" novalidate aria-label="Checkout form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="chkFirst">First Name *</label>
+                  <input type="text" id="chkFirst" required aria-required="true" autocomplete="given-name" placeholder="Kofi">
+                </div>
+                <div class="form-group">
+                  <label for="chkLast">Last Name *</label>
+                  <input type="text" id="chkLast" required aria-required="true" autocomplete="family-name" placeholder="Mensah">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="chkPhone">Phone / MoMo Number *</label>
+                <input type="tel" id="chkPhone" required aria-required="true" autocomplete="tel" placeholder="+233 244 000 000">
+              </div>
+              <div class="form-group">
+                <label for="chkEmail">Email Address *</label>
+                <input type="email" id="chkEmail" required aria-required="true" autocomplete="email" placeholder="kofi@example.com">
+              </div>
+              <div class="form-group">
+                <label for="chkRegion">Delivery Region *</label>
+                <select id="chkRegion" required aria-required="true" onchange="updateDelivery(this.value)">
+                  <option value="" disabled selected>Select your region…</option>
+                  <option value="accra">Greater Accra (GH₵ 30)</option>
+                  <option value="ashanti">Ashanti Region (GH₵ 60)</option>
+                  <option value="western">Western Region (GH₵ 70)</option>
+                  <option value="central">Central Region (GH₵ 65)</option>
+                  <option value="volta">Volta Region (GH₵ 75)</option>
+                  <option value="eastern">Eastern Region (GH₵ 65)</option>
+                  <option value="northern">Northern Region (GH₵ 90)</option>
+                  <option value="other">Other Regions (GH₵ 100)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="chkAddress">Delivery Address *</label>
+                <textarea id="chkAddress" required aria-required="true" rows="3" placeholder="Street, landmark, neighbourhood…"></textarea>
+              </div>
+
+              <h3 style="font-family:var(--font-cond);font-size:1.1rem;text-transform:uppercase;letter-spacing:1px;color:var(--primary);margin:1.5rem 0 1rem;">Payment Method</h3>
+              <div style="display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1.5rem;" role="radiogroup" aria-label="Select payment method">
+                <label style="display:flex;align-items:center;gap:0.8rem;background:var(--mid);padding:1rem;border-radius:var(--radius);cursor:pointer;border:1px solid rgba(255,255,255,0.07);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(232,255,0,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+                  <input type="radio" name="payment" value="momo" checked style="accent-color:var(--primary);" aria-label="Mobile Money payment">
+                  <span>📱 Mobile Money (MTN / Vodafone / AirtelTigo)</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:0.8rem;background:var(--mid);padding:1rem;border-radius:var(--radius);cursor:pointer;border:1px solid rgba(255,255,255,0.07);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(232,255,0,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+                  <input type="radio" name="payment" value="card" style="accent-color:var(--primary);" aria-label="Credit or debit card payment">
+                  <span>💳 Credit / Debit Card (Visa / Mastercard)</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:0.8rem;background:var(--mid);padding:1rem;border-radius:var(--radius);cursor:pointer;border:1px solid rgba(255,255,255,0.07);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(232,255,0,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+                  <input type="radio" name="payment" value="cod" style="accent-color:var(--primary);" aria-label="Cash on delivery payment">
+                  <span>💵 Cash on Delivery (Accra only)</span>
+                </label>
+              </div>
+
+              <div class="info-box" role="note">
+                <p>🔒 Your payment is secured with 256-bit SSL encryption. Card details are processed through our PCI DSS Level 1 certified payment gateway and are never stored on our servers.</p>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width:100%;font-size:1.1rem;margin-top:1.2rem;" aria-label="Place your order">🔒 Place Order Securely</button>
+            </form>
+          </div>
+        </div>
+
+      </div><!-- /two-col -->
+
+      <!-- Recommended products -->
+      <hr class="separator">
+      <div class="section-header" style="margin-top:2rem;">
+        <h2>You Might Also <span>Like</span></h2>
+        <div class="divider"></div>
+      </div>
+      <div class="product-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));">
+        <article class="product-card">
+          <div class="product-img" style="height:150px;background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:2.5rem;" aria-label="Gym Gloves">🧤</div>
+          <div class="product-info">
+            <h3>Gym Gloves</h3>
+            <div class="price">GH₵ 65</div>
+            <button class="btn btn-primary" style="width:100%;padding:8px;" onclick="addToCart('Gym Gloves',65)" aria-label="Add Gym Gloves to cart">Add to Cart</button>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-img" style="height:150px;background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:2.5rem;" aria-label="Shaker Bottle">🥤</div>
+          <div class="product-info">
+            <h3>Shaker Bottle</h3>
+            <div class="price">GH₵ 40</div>
+            <button class="btn btn-primary" style="width:100%;padding:8px;" onclick="addToCart('Shaker Bottle',40)" aria-label="Add Shaker Bottle to cart">Add to Cart</button>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-img" style="height:150px;background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:2.5rem;" aria-label="Resistance Band Set">🎗️</div>
+          <div class="product-info">
+            <h3>Resistance Bands</h3>
+            <div class="price">GH₵ 95</div>
+            <button class="btn btn-primary" style="width:100%;padding:8px;" onclick="addToCart('Resistance Bands',95)" aria-label="Add Resistance Bands to cart">Add to Cart</button>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-img" style="height:150px;background:linear-gradient(135deg,#1c1c1c,#2d2d2d);font-size:2.5rem;" aria-label="Creatine Monohydrate">🔬</div>
+          <div class="product-info">
+            <h3>Creatine 500g</h3>
+            <div class="price">GH₵ 180</div>
+            <button class="btn btn-primary" style="width:100%;padding:8px;" onclick="addToCart('Creatine 500g',180)" aria-label="Add Creatine to cart">Add to Cart</button>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">FIT<span>ZONE</span> GH</div>
+        <p>Ghana's premier online fitness store. Fast delivery, authentic products, expert advice.</p>
+        <div class="footer-social">
+          <a href="https://facebook.com"  target="_blank" rel="noopener" aria-label="Facebook">📘</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
+          <a href="https://twitter.com"   target="_blank" rel="noopener" aria-label="Twitter">🐦</a>
+          <a href="https://youtube.com"   target="_blank" rel="noopener" aria-label="YouTube">▶️</a>
+        </div>
+      </div>
+      <nav class="footer-col" aria-label="Shop navigation"><h4>Shop</h4><ul><li><a href="products.html">All Products</a></li><li><a href="products.html">Equipment</a></li><li><a href="products.html">Supplements</a></li></ul></nav>
+      <nav class="footer-col" aria-label="Company navigation"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></nav>
+      <nav class="footer-col" aria-label="Support navigation"><h4>Support</h4><ul><li><a href="contact.html">FAQ</a></li><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li></ul></nav>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 FitZone GH. All rights reserved.</span>
+      <span>Secured by <a href="#">SSL</a> · <a href="#">PCI DSS Compliant</a></span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <script>
+    // Nav
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.classList.toggle('open', open); toggle.setAttribute('aria-expanded', open);
+    });
+    function doNavSearch() {
+      const q = document.getElementById('navSearch').value.trim();
+      if (q) window.location.href = 'products.html?q=' + encodeURIComponent(q);
+    }
+
+    // Cart data — using in-memory object (no localStorage per platform rules)
+    let cart = [
+      { name: 'Olympic Barbell 20kg', price: 890, qty: 1 },
+      { name: 'Whey Protein 2kg',     price: 420, qty: 2 },
+      { name: 'Creatine Monohydrate', price: 180, qty: 1 }
+    ];
+    let deliveryCost = 50;
+    let discount = 0;
+
+    function renderCart() {
+      const body = document.getElementById('cartBody');
+      const empty = document.getElementById('cartEmpty');
+      const wrapper = document.getElementById('cartTableWrapper');
+      const actions = document.getElementById('cartActions');
+      if (cart.length === 0) {
+        empty.style.display = 'block'; wrapper.style.display = 'none'; actions.style.display = 'none';
+      } else {
+        empty.style.display = 'none'; wrapper.style.display = ''; actions.style.display = '';
+        body.innerHTML = cart.map((item, i) => `
+          <tr>
+            <td><strong>${item.name}</strong></td>
+            <td>GH₵ ${item.price.toLocaleString()}</td>
+            <td><input class="qty-input" type="number" min="1" max="99" value="${item.qty}"
+                       onchange="updateQty(${i}, this.value)"
+                       aria-label="Quantity for ${item.name}"></td>
+            <td style="color:var(--primary);font-family:var(--font-display);font-size:1.1rem;">
+              GH₵ ${(item.price * item.qty).toLocaleString()}
+            </td>
+            <td><button onclick="removeItem(${i})" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:1.2rem;" aria-label="Remove ${item.name} from cart" title="Remove">✕</button></td>
+          </tr>`).join('');
+      }
+      updateTotals();
+    }
+
+    function updateQty(i, val) {
+      const n = Math.max(1, parseInt(val) || 1);
+      cart[i].qty = n; renderCart();
+    }
+    function removeItem(i) {
+      const name = cart[i].name; cart.splice(i, 1); renderCart();
+      showToast(`Removed ${name} from cart`);
+    }
+    function clearCart() {
+      cart = []; renderCart(); showToast('Cart cleared');
+    }
+    function addToCart(name, price) {
+      const ex = cart.find(i => i.name === name);
+      if (ex) ex.qty++; else cart.push({ name, price, qty: 1 });
+      renderCart(); showToast(`✅ ${name} added!`);
+    }
+    function updateTotals() {
+      const sub = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const total = sub + deliveryCost - discount;
+      document.getElementById('subtotalDisplay').textContent  = `GH₵ ${sub.toLocaleString()}`;
+      document.getElementById('deliveryDisplay').textContent  = `GH₵ ${deliveryCost}`;
+      document.getElementById('discountDisplay').textContent  = `– GH₵ ${discount}`;
+      document.getElementById('totalDisplay').textContent     = `GH₵ ${Math.max(0,total).toLocaleString()}`;
+    }
+    function updateDelivery(region) {
+      const costs = { accra:30, ashanti:60, western:70, central:65, volta:75, eastern:65, northern:90, other:100 };
+      deliveryCost = costs[region] || 50; updateTotals();
+    }
+    function applyPromo() {
+      const code = document.getElementById('promoCode').value.trim().toUpperCase();
+      if (code === 'FITZONE10') { discount = Math.round(cart.reduce((s,i)=>s+i.price*i.qty,0)*0.10); showToast('✅ 10% discount applied!'); }
+      else if (code === 'GHANA20') { discount = 200; showToast('✅ GH₵200 discount applied!'); }
+      else { showToast('❌ Invalid promo code'); discount = 0; }
+      updateTotals();
+    }
+    function placeOrder(e) {
+      e.preventDefault();
+      if (cart.length === 0) { showToast('⚠️ Your cart is empty!'); return; }
+      const f = e.target;
+      if (!f.chkFirst.value || !f.chkPhone.value || !f.chkEmail.value || !f.chkRegion.value || !f.chkAddress.value) {
+        showToast('⚠️ Please fill in all delivery details.'); return;
+      }
+      showToast('✅ Order placed! Confirmation sent to your phone & email.');
+      setTimeout(() => { cart = []; renderCart(); f.reset(); }, 1000);
+    }
+
+    function searchPage() {
+      clearSearch();
+      const query = document.getElementById('pageSearch').value.trim().toLowerCase();
+      if (!query) return;
+      const walker = document.createTreeWalker(document.getElementById('main-content'), NodeFilter.SHOW_TEXT);
+      const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+      let found = 0;
+      nodes.forEach(node => {
+        const idx = node.nodeValue.toLowerCase().indexOf(query);
+        if (idx !== -1 && !['SCRIPT','BUTTON','INPUT','TEXTAREA','SELECT'].includes(node.parentElement.tagName)) {
+          const span = document.createElement('mark');
+          span.className = 'search-highlight'; span.setAttribute('data-search-mark','true');
+          const range = document.createRange();
+          range.setStart(node, idx); range.setEnd(node, idx + query.length);
+          range.surroundContents(span);
+          if (found === 0) span.scrollIntoView({ behavior:'smooth', block:'center' });
+          found++;
+        }
+      });
+      showToast(found ? `Found ${found} match${found>1?'es':''}` : 'No matches found');
+    }
+    function clearSearch() {
+      document.querySelectorAll('[data-search-mark]').forEach(m => m.replaceWith(document.createTextNode(m.textContent)));
+    }
+    function showToast(msg) {
+      const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+    const sizes = [12,14,16,18,20]; let sizeIdx = 2;
+    function changeFontSize(dir) {
+      if (dir===0) sizeIdx=2; else sizeIdx=Math.max(0,Math.min(4,sizeIdx+dir));
+      document.documentElement.style.fontSize = sizes[sizeIdx]+'px';
+    }
+    function toggleContrast() {
+      const r = document.documentElement.style;
+      r.setProperty('--dark', r.getPropertyValue('--dark')==='#000000'?'#0A0A0A':'#000000');
+    }
+    document.getElementById('pageSearch').addEventListener('keydown', e => { if(e.key==='Enter') searchPage(); });
+
+    // Init
+    renderCart();
+  </script>
+</body>
+</html>
