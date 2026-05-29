@@ -179,7 +179,7 @@
                   Pay securely with your preferred payment channel. Paystack supports multiple methods seamlessly in Ghana:
                 </p>
                 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;font-size:0.85rem;">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:0.6rem;font-size:0.85rem;">
                   <div style="display:flex;align-items:center;gap:0.4rem;color:var(--text-muted);background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:var(--radius);">
                     📱 MTN MoMo
                   </div>
@@ -313,12 +313,12 @@
         empty.style.display = 'none'; wrapper.style.display = ''; actions.style.display = '';
         body.innerHTML = cart.map((item, i) => `
           <tr>
-            <td><strong>${item.name}</strong></td>
-            <td>GH₵ ${item.price.toLocaleString()}</td>
-            <td><input class="qty-input" type="number" min="1" max="99" value="${item.qty}"
+            <td data-label="Product"><strong>${item.name}</strong></td>
+            <td data-label="Price">GH₵ ${item.price.toLocaleString()}</td>
+            <td data-label="Qty"><input class="qty-input" type="number" min="1" max="99" value="${item.qty}"
                        onchange="updateQty(${i}, this.value)"
                        aria-label="Quantity for ${item.name}"></td>
-            <td style="color:var(--primary);font-family:var(--font-display);font-size:1.1rem;">
+            <td data-label="Subtotal" style="color:var(--primary);font-family:var(--font-display);font-size:1.1rem;">
               GH₵ ${(item.price * item.qty).toLocaleString()}
             </td>
             <td><button onclick="removeItem(${i})" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:1.2rem;" aria-label="Remove ${item.name} from cart" title="Remove">✕</button></td>

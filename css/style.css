@@ -1105,3 +1105,67 @@ hr.separator {
   .form-wrapper { padding: 1.5rem; }
   .btn { padding: 12px 24px; font-size: 1rem; }
 }
+
+/* Premium Mobile Responsive Stacking for Cart Table */
+@media (max-width: 600px) {
+  .cart-table, 
+  .cart-table thead, 
+  .cart-table tbody, 
+  .cart-table tr, 
+  .cart-table td, 
+  .cart-table th {
+    display: block;
+  }
+  .cart-table thead {
+    display: none; /* Hide standard visual table header */
+  }
+  .cart-table tr {
+    border-bottom: 2px solid rgba(255,255,255,0.08);
+    padding: 1.5rem 0;
+    position: relative;
+  }
+  .cart-table tr:hover td {
+    background: none; /* Disable cell hover background on mobile */
+  }
+  .cart-table td {
+    border-bottom: none;
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+  }
+  /* Prepend custom headers using data-label properties */
+  .cart-table td::before {
+    content: attr(data-label);
+    font-family: var(--font-cond);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+  /* Custom layout for Product Name */
+  .cart-table td[data-label="Product"] {
+    font-size: 1.15rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    margin-bottom: 0.6rem;
+    display: block;
+    text-align: left;
+  }
+  .cart-table td[data-label="Product"]::before {
+    display: none; /* Remove "Product" text header for mobile product name styling */
+  }
+  /* Custom absolute placement for deletion button */
+  .cart-table td:last-child {
+    position: absolute;
+    top: 1.3rem;
+    right: 0;
+    padding: 0;
+    width: auto;
+  }
+  .cart-table td:last-child::before {
+    display: none;
+  }
+}
